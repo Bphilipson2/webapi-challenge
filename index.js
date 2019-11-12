@@ -12,3 +12,31 @@ I need this code, just don't know where, perhaps should make some middleware, do
 
 Go code!
 */
+const express = require('express');
+
+const projectsRouter = require('./projects/projectsRouter.js');
+const actionsRouter = require('./actions/actionsRouter.js');
+
+const server = express();
+
+server.use(express.json());
+
+server.use(logger);
+
+server.use('/api/projects', projectsRouter);
+server.use('/api/actions', actionsRouter);
+
+server.get('/', (req, res) => {
+  res.send(`<h1>WebAPI Challenge</h1>`);
+});
+
+function logger(req, res, next) {
+  console.log(`${req.method} to ${req.url}`);
+  next();
+}
+
+server.listen(4000, () => {
+  console.log('Listen on port 4000')
+})
+
+module.exports = server;
